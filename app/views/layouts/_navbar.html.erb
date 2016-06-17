@@ -1,0 +1,25 @@
+<nav>
+  <%= link_to "HOME", root_path %>
+  <a href='<%= about_path %>'> about us </a> |
+  <a href="http://localhost:3000/about"> About US url</a> |
+  <%= link_to("New questions", new_question_path) %> |
+  <a href="<%= greet_path({name: "jonne"}) %>"> greet jon </a> |
+  <a href="<%= greet_path("AM") %>"> greet TAM </a> |
+  <%= link_to("About Us", about_path, {class: "abc", id: "xyz"}) %> |
+  <%= link_to("Cowsay", cowsay_path) %> |
+  <%= link_to("tempcon", temp_path) %> |
+  <%= link_to('bill', bill_path) %> |
+  <%= link_to('Name Picker', namepicker_path) %> |
+  <%= link_to("New questions", new_question_path) %> |
+  <%= link_to("ALL Questions", questions_path) %> |
+
+
+  <hr>
+
+   <% if flash[:notice] %>
+     <div class="flash-notice"><%= flash[:notice] %></div>
+   <% elsif flash[:alert] %>
+     <div class="flash-alert"><%= flash[:alert] %></div>
+   <% end %>
+
+</nav>
