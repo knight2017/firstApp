@@ -1,0 +1,37 @@
+
+<h1><%= @question.title %></h1>
+<p><%= @question.body  %></p>
+<h3><%= @question.view_count%> </h3>
+<h1><%= @question.title.titleize %></h1>
+<p><%= @question.body %></p>
+<p>Views: <%= @question.view_count %></p>
+<p>Created By: <%= @question.aauser.full_name if @question.aauser %></p>
+
+<%= link_to "Edit", edit_question_path(@question) %>
+<%= link_to "Delete", question_path(@question),
+method: :delete,
+data:   {confirm: "Are you sure?"} %>
+
+
+<%#= form_for @answer, url: question_answers_path(@question) do %>
+<h2>Create Answer</h2>
+<br>
+<%= @answer.errors.full_messages.join(", ") %> <br>
+<%= form_for [@question, @answer] do |f| %>
+   <%= f.text_area :body %> <br>
+   <%= f.submit %>
+<% end %>
+
+
+<h2>Answer</h2>
+<div>
+
+<% @question.new_first_answer.each do |ans| %>
+  <%= ans.body %>
+  <%= link_to "Delete", question_answer_path(@question, ans),
+                        method: :delete,
+                        data: {confirm: "Are you sure?"} %>
+  <hr>
+<% end %>
+
+</div>

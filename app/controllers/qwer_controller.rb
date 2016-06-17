@@ -1,0 +1,5 @@
+class QwerController < ApplicationController
+
+
+
+end

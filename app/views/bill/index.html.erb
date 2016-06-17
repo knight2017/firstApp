@@ -1,0 +1,19 @@
+
+<h1>BILL SPLITTER</h1>
+<%= form_tag bill_path do  %>
+enter total amount <br>
+<%= text_field_tag :amount%> <br>
+enter tax rate <br>
+<%= text_field_tag :tax%> <br>
+enter tips rate <br>
+<%= text_field_tag :tip%> <br>
+enter number of people to share <br>
+<%= text_field_tag :numofppl%> <br>
+
+<%= submit_tag "each pays" %>
+<% end %>
+
+
+<%= "Each person pays" %>
+<br>
+<%= @result %>

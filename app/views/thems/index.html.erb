@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Thems</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @thems.each do |them| %>
+      <tr>
+        <td><%= them.name %></td>
+        <td><%= them.content %></td>
+        <td><%= link_to 'Show', them %></td>
+        <td><%= link_to 'Edit', edit_them_path(them) %></td>
+        <td><%= link_to 'Destroy', them, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Them', new_them_path %>

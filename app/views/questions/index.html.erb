@@ -1,0 +1,15 @@
+<h1>ALL Questions</h1>
+<% if user_signed_in? %>
+ Hello <%= current_user.first_name %>
+ <%= link_to "sign out", sessions_path, method: :delete %>
+<% else %>
+ <%= link_to "Sign Up", new_aauser_path %>
+ <%= link_to "Sign In", new_session_path %>
+<% end %>
+<br>
+
+<%#= link_to "Sign Up", new_user_path %>
+<% @questions.each do |question| %>
+  <%= link_to question.title, question_path(question) %>
+  <hr>
+<% end %>
