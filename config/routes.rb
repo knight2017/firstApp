@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
 
 
-
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+  resources :likes, only: [:index]
   resources :sessions, only: [:new, :create] do
      delete :destroy, on: :collection
    end
   resources :aausers, only:[:new, :create]
-  resources :sessions, only: [:new, :create, :destroy]
   resources :questions do
     # this will define a route that will be `/questions/search` and it will
-   # point to the questions controller `search` action in that controller.
-   # on: :collection makes the route not have an `id` or `question_id` on it
+    # point to the questions controller `search` action in that controller.
+    # on: :collection makes the route not have an `id` or `question_id` on it
     get :search, on: :collection
     # this will generate a route `/questions/:id/flag` and it will point to
     # questions controller `flag` action.
@@ -22,7 +22,8 @@ Rails.application.routes.draw do
     # will will make all the answers routes nested within `questions` which
     # means all the answers routes will be prepended with `/questions/:question_id`
     resources :answers, only: [:create, :destroy]
-
+    resources :likes, only: [:create, :destroy]
+    resources :votes, only: [:create, :update, :destroy]
   end
 
   # this defines a rount that specifies if we get a request the has a GET HTTP

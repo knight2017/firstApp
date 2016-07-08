@@ -1,0 +1,21 @@
+<p>
+  hello <%= @owner.full_name %>
+</p>
+
+<p>
+  you got an answer
+  <br>
+  Question title: <%= @question.title %>
+  <br>
+  Answer: <%= @answer.body %>
+  <br>
+  Visi your questions by clicking
+  <%= link_to "here", question_url(@question) %>
+  <br>
+</p>
+
+<p style='padding-top: 10px'>
+  regards,
+  <br>
+  AA team
+</p>

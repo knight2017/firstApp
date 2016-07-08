@@ -1,5 +1,6 @@
 <h1>ALL Questions</h1>
 <% if user_signed_in? %>
+  <%= link_to "Liked Questions", likes_path %>
  Hello <%= current_user.first_name %>
  <%= link_to "sign out", sessions_path, method: :delete %>
 <% else %>
@@ -13,3 +14,5 @@
   <%= link_to question.title, question_path(question) %>
   <hr>
 <% end %>
+
+<%= paginate @questions %>

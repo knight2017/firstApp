@@ -34,10 +34,19 @@ def show
    count = @question.view_count + 1
    @question.update(view_count: count)
    @answer = Answer.new
+   respond_to do |format|
+      format.html
+      format.json { render json: {question: @question, answers: @question.answers} }
+    end
 end
 
 def index
-  @questions = Question.order(created_at: :desc)
+  @questions = Question.order(created_at: :desc).page(params[:page]).per(params[:per] || 7)
+    respond_to do |format|
+      format.html
+      format.json { render json: @questions }
+      format.xml  { render xml:  @questions }
+    end
 end
 
 def edit
@@ -45,7 +54,7 @@ def edit
 end
 
 def update
-
+  @question.slug = nil
   # @question = Question.find params[:id]
   # question_params = params.require(:question).permit(:title, :body)
   if @question.update question_params
@@ -62,8 +71,14 @@ redirect_to questions_path, notice: "destroyed"
 end
  private
 
+ def current_user_vote
+    @question.vote_for(current_user)
+ end
+ helper_method :current_user_vote
+
+
  def question_params
-    params.require(:question).permit(:title, :body, :category_id)
+   params.require(:question).permit(:title, :body, :category_id, {tag_ids: []})
  end
  def find_question
   @question = Question.find params[:id]
@@ -71,8 +86,14 @@ end
 
  def authenticate_user!
    redirect_to new_session_path, alert: "please sign in" unless user_signed_in?
-
  end
+
+
+
+  def authorize_owner
+   redirect_to root_path, alert: "access denied" unless can? :manage, @question
+  end
+
 
 
 end

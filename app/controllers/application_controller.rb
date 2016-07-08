@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
    end
    helper_method :current_user
 
+    def current_question
+      @current_question ||= Question.find params[:question_id]
+    end
+    helper_method :current_question
      # if we need methods to be available in view files we will need to add
      # `helper_method` and the first argument is the method name as a symbol
 
@@ -18,7 +22,9 @@ class ApplicationController < ActionController::Base
        session[:aauser_id] = user.id
    end
 
-
+   def authenticate_user!
+     redirect_to new_session_path, alert: "please sign in" unless user_signed_in?
+   end
 
 
 

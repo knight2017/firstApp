@@ -1,0 +1,18 @@
+
+  hello <%= @owner.full_name %>
+
+
+  you got an answer
+
+  Question title: <%= @question.title %>
+
+  Answer: <%= @answer.body %>
+
+  Visi your questions by clicking
+  <%= link_to "here", question_url(@question) %>
+
+
+
+  regards,
+
+  AA team

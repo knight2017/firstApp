@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
     @question = Question.find params[:question_id]
     @answer.question = @question
     if @answer.save
+    # AnswerMailer.notify_question_owner(@answer).deliver_now
+    AnswerMailer.notify_question_owner(@answer).deliver_later
     redirect_to question_path(@question), notice: "Answer Created"
     else
      flash[:alert] = "Question not created!"

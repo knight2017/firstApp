@@ -1,0 +1,27 @@
+<div id="votes">
+  <% if question.voted_up_by?(current_user) %>
+
+  <%= link_to "undo up", question_vote_path(question, current_user_vote),
+  method: :delete,
+  remote: true,
+  data: {disable_with: "..."}%>
+  (<%= question.vote_sum %>)
+  <%= link_to "Down",    question_vote_path(question, current_user_vote, {vote: {is_up: false}}),
+  method: :patch,
+  remote: true %>
+  <% elsif question.voted_down_by?(current_user) %>
+
+  <%= link_to "up", question_vote_path(question, question.vote_for(current_user), {vote: {is_up: true}}),
+  method: :patch,
+  remote: true %>
+  (<%= question.vote_sum %>)
+  <%= link_to "undo down", question_vote_path(question, question.vote_for(current_user)),
+  method: :delete,
+  remote: true,
+  data: {disable_with: "..."}%>
+  <% else %>
+  <%= link_to "up", question_votes_path(question, vote:{is_up: true}), method: :post, remote: true%>
+  (<%= question.vote_sum %>)
+  <%= link_to "down", question_votes_path(question, vote:{is_up: false} ), method: :post, remote: true %>
+  <% end %>
+</div>

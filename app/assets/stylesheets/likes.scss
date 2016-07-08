@@ -1,0 +1,11 @@
+// Place all the styles related to the likes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.like-icon {
+  font-size: 50px;
+}
+
+// <%= button_to question_like_path(@question, @question.like_for(current_user)),
+//             method: :delete,
+//             class: "like-icon" do %>
+//             <%= fa_icon("thumbs-up") %>

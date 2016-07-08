@@ -6,12 +6,26 @@
 <p><%= @question.body %></p>
 <p>Views: <%= @question.view_count %></p>
 <p>Created By: <%= @question.aauser.full_name if @question.aauser %></p>
+<p>Tags: <%= @question.tags.map {|t| t.title.capitalize }.join(", ") %></p>
 
+<% if @question.liked_by?(current_user) %>
+<%=link_to fa_icon("thumbs-up"), question_like_path(@question, @question.like_for(current_user)), method: :delete, class: "like-icon" %>
+
+<% else %>
+<%= link_to fa_icon("thumbs-o-up"), question_likes_path(@question), method: :post, class: "like-icon" %>
+<% end %>
+(<%= @question.likes.count %>)
+
+  <%= render "/questions/vote", question: @question %>
+
+
+<%# if user_signed_in? && @question.aauser == current_user %>
+<% if can? :manage, @question %>
 <%= link_to "Edit", edit_question_path(@question) %>
 <%= link_to "Delete", question_path(@question),
 method: :delete,
 data:   {confirm: "Are you sure?"} %>
-
+<% end %>
 
 <%#= form_for @answer, url: question_answers_path(@question) do %>
 <h2>Create Answer</h2>

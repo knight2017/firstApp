@@ -10,7 +10,13 @@ class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   belongs_to :category
   belongs_to :aauser
-  # has_many :answers, dependent: :nullify
+  has_many :likes, dependent: :destroy
+  has_many :aausers, through: :likes
+  has_many :votes, dependent: :destroy
+  has_many :voting_aausers, through: :votes, source: :aauser
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
   validates(:title, {presence: {message: "must br asd"}, uniqueness: true})
   # validates :body, presence: true,
   #                  length: {minimum: 7},
@@ -33,6 +39,10 @@ scope :recent, lambda { |count| where("created_at > ?", 3.days.ago).limit(count)
  before_save :squz
   # before_validation
   # after_validation
+
+extend FriendlyId
+friendly_id :title, use: [:slugged, :finders, :history]
+
  def self.search(str)
   #  where(['title ILIKE ? OR body ILIKE ?', "%#{str}%","%#{str}%"]).limit(10)
    where(['title ILIKE :word OR body ILIKE :word', {word: "%#{str}%"}]).limit(10)
@@ -40,8 +50,49 @@ scope :recent, lambda { |count| where("created_at > ?", 3.days.ago).limit(count)
 def new_first_answer
 answers.order(id: :desc)
 end
+def liked_by?(user)
+  # likes.find_by_aauser_id user
+  likes.exists?(aauser:user)
+end
+def like_for(user)
+likes.find_by_aauser_id user
+# likes.where(aauser: current_user).first
+end
+
+def voted_by?(user)
+  votes.exists?(aauser: user)
+end
+
+def vote_for(user)
+  votes.find_by_aauser_id user
+end
+
+def voted_up_by?(user)
+  voted_by?(user) && vote_for(user).is_up?
+end
+def voted_down_by?(user)
+  voted_by?(user) && !vote_for(user).is_up?
+end
+
+def up_votes
+   votes.where(is_up: true).count
+ end
+
+ def down_votes
+   votes.where(is_up: false).count
+ end
+
+ def vote_sum
+    up_votes - down_votes
+  end
+# def to_param
+#    "#{id}-#{title}".parameterize
+# end
+
 
 private
+
+
 def squz
   if title != nil && body != nil
    self.title = title.squeeze(' ')
@@ -68,6 +119,7 @@ def no_monkey
       errors.add(:title, "no monkey")
   end
 end
+
 
 
 end
