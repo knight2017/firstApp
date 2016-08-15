@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
   resources :likes, only: [:index]
   resources :sessions, only: [:new, :create] do
@@ -42,8 +41,29 @@ Rails.application.routes.draw do
   post '/temp' => "tempcon#convert", as: :convert
   get  '/bill'  => 'bill#index'
   post '/bill'  => 'bill#split'
-   get  '/namepicker'    => 'namepicker#index'
-   post '/namepicker'    => 'namepicker#pick'
+  get  '/namepicker'    => 'namepicker#index'
+  post '/namepicker'    => 'namepicker#pick'
+  get "/auth/twitter", as: :sign_in_with_twitter
+  get "/auth/twitter/callback" => "callbacks#twitter"
+  # get "/api/v1/questions" => "api/v1/questions#index"
+
+  # this will prepend all the urls for the questions with /api/v1 but it
+  # will still point to the questions_controller.rb
+  # scope :api do
+  #   scope :v1 do
+  #     resources :questions, only: [:index, :show]
+  #   end
+  # end
+
+  # this will prepend all the urls for the questions with /api/v1 and it
+  # will point to the api/v1/questions_controller.rb
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :questions, only: [:index, :show] do
+        resources :answers, only: [:create]
+      end
+    end
+  end
 
     # resources :questions
    #

@@ -2,9 +2,6 @@ class AausersController < ApplicationController
 
 def new
   @user = Aauser.new
-
-
-
 end
 # def create
 #     user_params = params.require(:user).permit(:first_name, :last_name, :email,
@@ -17,6 +14,7 @@ end
 #       render :new
 #     end
 #   end
+
 def create
  user_params = params.require(:aauser).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     @user = Aauser.new user_params

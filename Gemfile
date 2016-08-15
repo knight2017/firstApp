@@ -1,4 +1,9 @@
 source 'https://rubygems.org'
+gem 'virtus'
+gem 'draper'
+gem "react-rails"
+gem 'twitter'
+gem 'omniauth-twitter'
 gem 'rack-cors', require: 'rack/cors'
 gem "delayed_job_web"
 gem 'delayed_job_active_record'
@@ -25,6 +30,11 @@ gem 'kaminari'
 gem 'friendly_id'
 gem 'simple_form'
 gem "bootstrap-sass"
+gem "quiet_assets"
+gem 'carrierwave'
+gem "mini_magick"
+gem "fog"
+gem 'active_model_serializers'
 group :development, :test do
   gem 'byebug'
 end
